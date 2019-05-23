@@ -21,11 +21,11 @@ public class PrintUtils {
             System.out.println("\nPrinting list with " + arraylist.size() + " elements:");
         for (int i = 0; i < arraylist.size(); i++) {
             if(arraylist.get(i) instanceof IndividualAssignment) {
-            System.out.println(">>>" + arraylist.get(i).getClass().getSuperclass().getSimpleName() + " " + (i+1));
-            System.out.println(arraylist.get(i).toString());
+            System.out.println(">>> " + (i+1) +". " + arraylist.get(i).toString());
+//            System.out.println(arraylist.get(i).toString());
             } else {
-            System.out.println(">>>" + arraylist.get(i).getClass().getSimpleName() + " " + (i+1));
-            System.out.println(arraylist.get(i).toString());
+            System.out.println(">>> " + (i+1) +". " + arraylist.get(i).toString());
+//            System.out.println(arraylist.get(i).toString());
             }
 
         }

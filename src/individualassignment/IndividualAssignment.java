@@ -5,7 +5,12 @@
  */
 package individualassignment;
 
+import dao.UserDAO;
+import java.util.Scanner;
+import model.School;
 import model.Student;
+import utils.PrintUtils;
+import utils.Utils;
 
 
 /**
@@ -18,15 +23,10 @@ public class IndividualAssignment {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+         
+        School school = new School();
         
-        Student student = new Student();
-        student.setFirstname("Evangelos");
-        student.setLastname("Kalabokis");
-        student.setStudentid(10);
-        
-        System.out.println(student.toString());
-        
-        
+        school.initiate();
     }
     
 }

@@ -22,7 +22,7 @@ public class DBUtils {
     
 public static final String USERNAME = "root";
 public static final String PASS = "54135413ev";
-public static final String MYSQLURL = "jdbc:mysql://localhost:3306/music?zeroDateTimeBehavior=CONVERT_TO_NULL"
+public static final String MYSQLURL = "jdbc:mysql://localhost:3306/school?zeroDateTimeBehavior=CONVERT_TO_NULL"
                 + "&useUnicode=true"
                 + "&useJDBCCompliantTimezoneShift=true"
                 + "&useLegacyDatetimeCode=false"

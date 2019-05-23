@@ -16,6 +16,26 @@ public class InputUtils {
     public static String inputString(Scanner sc) {
         String input;
         input = sc.nextLine();
+//        String regex1 = "^[a-zA-Z]*$";
+
+        while (input.equals("") || input.matches("^\\s*$")) {
+
+//            if (input.equals("") || input.matches("^\\s*$")) {
+                System.out.println("No data input. Please type word characters");
+                input = sc.nextLine();
+//            } else {
+//                System.out.println("Invalid data input. Please type word characters");
+//                input = sc.nextLine();
+//            }
+
+        }
+
+        return input;
+    }
+    
+    public static String inputStringName(Scanner sc) {
+        String input;
+        input = sc.nextLine();
         String regex1 = "^[a-zA-Z]*$";
 
         while (!input.matches(regex1) || input.equals("") || input.matches("^\\s*$")) {
