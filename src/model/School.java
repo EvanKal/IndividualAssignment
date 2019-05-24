@@ -6,6 +6,8 @@
 package model;
 
 import java.util.Scanner;
+import menus.HeadmasterMenu;
+import utils.InputUtils;
 import utils.Utils;
 
 /**
@@ -13,10 +15,9 @@ import utils.Utils;
  * @author Los_e
  */
 public class School {
-    
+
     Scanner sc = new Scanner(System.in);
     private User loggedinuser;
-
 
     public User getLoggedinuser() {
         return loggedinuser;
@@ -25,11 +26,23 @@ public class School {
     public void setLoggedinuser(User loggedinuser) {
         this.loggedinuser = loggedinuser;
     }
-    
-    
+
     public void initiate() {
-    
-        setLoggedinuser(Utils.logIn(sc));
-        System.out.println(loggedinuser.toString());
+
+        System.out.println("Welcome");
+
+        while (loggedinuser == null) {
+
+            System.out.println("Please log in.");
+            setLoggedinuser(Utils.logIn(sc));
+            System.out.println(loggedinuser.toString());
+
+        }
+
+        System.out.println("Welcome " + loggedinuser.getUsername() + "!");
+        
+        if (loggedinuser.getRole().equals("headmaster")) {HeadmasterMenu.headmasterMainMenu(sc);}
+        
+
     }
 }

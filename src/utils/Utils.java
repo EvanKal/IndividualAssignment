@@ -135,13 +135,12 @@ public class Utils {
         System.out.println("Logging in...");
         System.out.println("Username: ");
         String username = InputUtils.inputString(sc);
-        User user = UserDAO.getUserTryingToLogIn(username);
-        
-        while (user.getUsername() == null) {
+
+        while (UserDAO.checkIfUsernameExists(username) == 0) {
             System.out.println("No user found with username " + username + ". Try a different one: ");
             username = InputUtils.inputString(sc);
-            user = UserDAO.getUserTryingToLogIn(username);
         }
+        User user = UserDAO.getUserTryingToLogIn(username);
 
         System.out.println("Password: ");
         String password = InputUtils.inputString(sc);
@@ -154,7 +153,35 @@ public class Utils {
         }
         
         System.out.println("Successfully logged in as: " + user.toString());
-        
+
         return user;
     }
+
+//    public static User logIn(Scanner sc) {
+//
+//        System.out.println("Logging in...");
+//        System.out.println("Username: ");
+//        String username = InputUtils.inputString(sc);
+//        User user = UserDAO.getUserTryingToLogIn(username);
+//
+//        while (user.getUsername() == null) {
+//            System.out.println("No user found with username " + username + ". Try a different one: ");
+//            username = InputUtils.inputString(sc);
+//            user = UserDAO.getUserTryingToLogIn(username);
+//        }
+//
+//        System.out.println("Password: ");
+//        String password = InputUtils.inputString(sc);
+//        BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), user.getPassword());
+//
+//        while (!result.verified) {
+//            System.out.println("Wrong password. Try again: ");
+//            password = InputUtils.inputString(sc);
+//            result = BCrypt.verifyer().verify(password.toCharArray(), user.getPassword());
+//        }
+//
+//        System.out.println("Successfully logged in as: " + user.toString());
+//
+//        return user;
+//    }
 }

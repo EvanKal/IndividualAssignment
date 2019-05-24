@@ -52,7 +52,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User: " +userid + " - " + username + " - " + role;
+        return "User: " +userid + " - " + username + " - " +  role;
     }
     
     

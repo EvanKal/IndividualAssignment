@@ -60,8 +60,8 @@ public class Student {
         return dateofbirth;
     }
 
-    public void setDateofbirth(LocalDate dateofbirth) {
-        this.dateofbirth = dateofbirth;
+    public void setDateofbirth(String dateofbirthstr) {
+        this.dateofbirth = LocalDate.parse(dateofbirthstr);
     }
 
     public String getStream() {
@@ -85,5 +85,4 @@ public class Student {
         return "Student: " + studentid + " - " + firstname + " - " + lastname + " - " + stream + " - " + type + " - " + tuitionfees + " - " + dateofbirth;
     }
 
-    
 }
