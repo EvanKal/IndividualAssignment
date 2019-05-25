@@ -21,8 +21,8 @@ public class InputUtils {
         while (input.equals("") || input.matches("^\\s*$")) {
 
 //            if (input.equals("") || input.matches("^\\s*$")) {
-                System.out.println("No data input. Please type word characters");
-                input = sc.nextLine();
+            System.out.println("No data input. Please type word characters");
+            input = sc.nextLine();
 //            } else {
 //                System.out.println("Invalid data input. Please type word characters");
 //                input = sc.nextLine();
@@ -32,7 +32,7 @@ public class InputUtils {
 
         return input;
     }
-    
+
     public static String inputStringName(Scanner sc) {
         String input;
         input = sc.nextLine();
@@ -72,31 +72,30 @@ public class InputUtils {
 
         return Integer.parseInt(input);
     }
-    
-    public float inputFloat(Scanner sc) {
-    
-    String input;
-    input = sc.nextLine();
 
-    String regex1 = "^([+-]?\\d*[.]?\\d*)$";
+    public static float inputFloat(Scanner sc) {
+
+        String input;
+        input = sc.nextLine();
+
+        String regex1 = "^([+-]?\\d*[.]?\\d*)$";
 //    String regex2 = "^\\d*$";
-    
-    while (!input.matches(regex1) || input.equals("") || input.matches("^\\s*$")) {
-             
-             if(input.equals("") || input.matches("^\\s*$")) {
-            System.out.println("No data input. Please type Please type numbers.");
-            input = sc.nextLine();
-            } else {
-             System.out.println("Invalid data input. Please type numbers.");
-             input = sc.nextLine();
-            }
-             
-    }
 
-    
-return Float.parseFloat(input);
-    
-}
+        while (!input.matches(regex1) || input.equals("") || input.matches("^\\s*$")) {
+
+            if (input.equals("") || input.matches("^\\s*$")) {
+                System.out.println("No data input. Please type Please type numbers.");
+                input = sc.nextLine();
+            } else {
+                System.out.println("Invalid data input. Please type numbers.");
+                input = sc.nextLine();
+            }
+
+        }
+
+        return Float.parseFloat(input);
+
+    }
 
     public static String inputStringType(Scanner sc) {
 
@@ -193,25 +192,24 @@ return Float.parseFloat(input);
     }
 
     public static String inputStringTime(Scanner sc) {
-    
-    String input;
-    input = sc.nextLine();
-    String regex = "^\\d{2}:\\d{2}$";
 
-    
-    while (!input.matches(regex) || !Utils.checkValidTime(input) || input.equals("") || input.matches("^\\s*$")) {
+        String input;
+        input = sc.nextLine();
+        String regex = "^\\d{2}:\\d{2}$";
 
-            if(input.equals("") || input.matches("^\\s*$")) {
-            System.out.println("No data input. Please type date in hh:mm format.");
-            input = sc.nextLine();
-            } else if (!input.matches(regex)){
-             System.out.println("Invalid data input. Please type date in hh:mm format.");
-             input = sc.nextLine();
+        while (!input.matches(regex) || !Utils.checkValidTime(input) || input.equals("") || input.matches("^\\s*$")) {
+
+            if (input.equals("") || input.matches("^\\s*$")) {
+                System.out.println("No data input. Please type date in hh:mm format.");
+                input = sc.nextLine();
+            } else if (!input.matches(regex)) {
+                System.out.println("Invalid data input. Please type date in hh:mm format.");
+                input = sc.nextLine();
             } else {
-            input = sc.nextLine();
+                input = sc.nextLine();
             }
         }
-    
-        return input;    
-}
+
+        return input;
+    }
 }

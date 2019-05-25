@@ -25,9 +25,9 @@ public class IndividualAssignment {
      */
     public static void main(String[] args) {
 
-//        School school = new School();
-//        
-//        school.initiate();
+        School school = new School();
+        
+        school.initiate();
 
 //PrintUtils.printList(StudentDAO.getAllStudents());
 
