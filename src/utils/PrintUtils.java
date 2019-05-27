@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import model.AssignmentInCourse;
 import model.Course;
+import model.Student;
 import model.StudentInCourse;
 import model.TrainerInCourse;
 
@@ -124,7 +125,7 @@ public class PrintUtils {
         if (arraylist.size() > 0) {
             System.out.println("\nPrinting list with " + arraylist.size() + " elements:");
 
-            System.out.println("\n>>> Assignment submission dates for student with id: " + arraylist.get(0).getStudent().getStudentid());
+            System.out.println("\n>>> Assignment marks and submission dates for student with id: " + arraylist.get(0).getStudent().getStudentid());
 
             int courseid = 0;
 
@@ -136,9 +137,9 @@ public class PrintUtils {
                 }
 
                 if (arraylist.get(i).isSubmitted()) {
-                    System.out.println((i+1) + " Submitted: " + arraylist.get(i).getTitle() + " by " + arraylist.get(i).getSubmissiondatetime());
+                    System.out.println((i + 1) + " Submitted: " + arraylist.get(i).getTitle() + " by " + arraylist.get(i).getSubmissiondatetime() +" Oral Mark " + arraylist.get(i).getOralmark() +" Total Mark " + arraylist.get(i).getTotalmark());
                 } else {
-                    System.out.println((i + 1) + " Not submitted: " + arraylist.get(i).getTitle() + " by " + arraylist.get(i).getSubmissiondatetime());
+                    System.out.println((i + 1) + " Not submitted: " + arraylist.get(i).getTitle() + " by " + arraylist.get(i).getSubmissiondatetime() +" Oral Mark " + arraylist.get(i).getOralmark() +" Total Mark " + arraylist.get(i).getTotalmark());
                 }
 
                 courseid = arraylist.get(i).getCourseid();
@@ -171,6 +172,42 @@ public class PrintUtils {
             }
         } else if (arraylist.isEmpty()) {
             System.out.println("Currently no items in list");
+        }
+
+    }
+
+    public static void printAssignmentsPerStudentPerCourse(ArrayList<IndividualAssignment> individualassignmentlist) {
+
+        if (individualassignmentlist.size() > 0) {
+
+            System.out.println("\nPrinting list with " + individualassignmentlist.size() + " elements:");
+            int courseid = 0;
+            int studentid = 0;
+
+            for (int i = 0; i < individualassignmentlist.size(); i++) {
+                Course course = CourseDAO.getCourseById(individualassignmentlist.get(i).getCourseid());
+                Student student = individualassignmentlist.get(i).getStudent();
+
+                if (courseid != individualassignmentlist.get(i).getCourseid()) {
+                    System.out.println("\n>>>" + course.getTitle());
+                    studentid = 0;
+                }
+                if (studentid != student.getStudentid()) {
+                    System.out.println("\n>>>" + student.toString());
+                }
+
+                if (individualassignmentlist.get(i).isSubmitted()) {
+                    System.out.println((i+1) +" Submitted " + individualassignmentlist.get(i).getTitle() + " by " + individualassignmentlist.get(i).getSubmissiondatetime() +" Oral Mark " + individualassignmentlist.get(i).getOralmark() +" Total Mark " + individualassignmentlist.get(i).getTotalmark());
+                } else {
+                    System.out.println((i+1) +" Not submitted " + individualassignmentlist.get(i).getTitle() + " by " + individualassignmentlist.get(i).getSubmissiondatetime() +" Oral Mark " + individualassignmentlist.get(i).getOralmark() +" Total Mark " + individualassignmentlist.get(i).getTotalmark());
+                }
+
+                courseid = individualassignmentlist.get(i).getCourseid();
+                studentid = student.getStudentid();
+            }
+
+        } else if (individualassignmentlist.isEmpty()) {
+            System.out.println("Currently no assignments appointer to students");
         }
 
     }

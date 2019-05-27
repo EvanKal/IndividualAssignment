@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import menus.HeadmasterMenu;
 import menus.StudentMenu;
+import menus.TrainerMenu;
 import utils.InputUtils;
 import utils.Utils;
 
@@ -60,6 +61,8 @@ public class School {
             HeadmasterMenu.headmasterMainMenu(sc);
         } else if (loggedinuser.getRole().equals("student")) {
             StudentMenu.studentMainMenu(sc, this);
+        } else if (loggedinuser.getRole().equals("trainer")) {
+            TrainerMenu.trainerMainMenu(sc, this);
         }
 
     }
@@ -661,4 +664,37 @@ public class School {
         }
 
     }
+    
+    public static void markAssignments(Scanner sc) {
+
+        System.out.println("Marking assignments");
+
+        ArrayList<IndividualAssignment> assignmentlist = IndividualAssignmentDAO.getAllSubmittedIndividualAssignments();
+
+        if (assignmentlist.size() > 0) {
+
+            System.out.println("Printing submitted assignments");
+
+            ArrayList<Integer> assignmentschosen = Utils.printListElementsAndCollectChoicesAssignmentsToMark(sc, assignmentlist);
+
+            for (Integer index : assignmentschosen) {
+                
+                IndividualAssignment individualassignment = assignmentlist.get(index - 1);
+                
+                System.out.println("Set oral mark: ");
+                int oralmark = InputUtils.inputInt(sc);
+                System.out.println("Set total mark: ");
+                int totalmark = InputUtils.inputInt(sc);
+                
+                individualassignment.setOralmark(oralmark);
+                individualassignment.setTotalmark(totalmark);
+
+                IndividualAssignmentDAO.updateIndividualAssignment(individualassignment);
+            }
+        } else {
+            System.out.println("Currently no assignments submitted.");
+        }
+
+    }
+
 }

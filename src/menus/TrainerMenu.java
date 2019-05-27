@@ -7,6 +7,7 @@ package menus;
 
 import dao.IndividualAssignmentDAO;
 import dao.StudentInCourseDAO;
+import dao.TrainerInCourseDAO;
 import java.util.Scanner;
 import model.School;
 import utils.InputUtils;
@@ -16,18 +17,18 @@ import utils.PrintUtils;
  *
  * @author Los_e
  */
-public class StudentMenu {
+public class TrainerMenu {
     
-    public static void studentMainMenu(Scanner sc, School school) {
+    public static void trainerMainMenu(Scanner sc, School school) {
 
         boolean check = true;
 
         while (check) {
             System.out.println("\nChoose what you want to do by typing the corresponding number.\n"
-                    + "\n1. Enroll to course."
-                    + "\n2. View daily schedule per course."
-                    + "\n3. See marks and submission dates of the Assignments per Course."
-                    + "\n4. Submit an assignment."
+                    + "\n1. View your courses."
+                    + "\n2. View all students per course."
+                    + "\n3. View all the assignments per students per course."
+                    + "\n4. Mark all the assignments per students per course."
                     + "\n5. Back."
             );
 
@@ -39,16 +40,16 @@ public class StudentMenu {
             }
 
             if (choice == 1) {
-                School.enrollStudentToCourses(sc, school.getLoggedinuser().getUserid());
+                PrintUtils.printList(TrainerInCourseDAO.getCoursesAppointedToTrainer(school.getLoggedinuser().getUserid()));
             }
             if (choice == 2) {
-                PrintUtils.printListCoursesDailyScheduleForStudent(StudentInCourseDAO.getAllCoursesPerStudent(school.getLoggedinuser().getUserid()));
+                PrintUtils.printEntitiesPerEntityStudentInCourse(TrainerInCourseDAO.getStudentsAppointedToTrainer(school.getLoggedinuser().getUserid()));
             }
             if (choice == 3) {
-                PrintUtils.printListAssignmentsForStudent(IndividualAssignmentDAO.getAllIndividualAssignmentsByStudentId(school.getLoggedinuser().getUserid()));
+                PrintUtils.printAssignmentsPerStudentPerCourse(IndividualAssignmentDAO.getAllIndividualAssignments());
             }
             if (choice == 4) {
-                School.submitAssignment(sc, school.getLoggedinuser().getUserid());
+                School.markAssignments(sc);
             }
             if (choice == 5) {
                 check = false;
@@ -56,3 +57,4 @@ public class StudentMenu {
         }
     }
 }
+

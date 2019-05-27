@@ -24,7 +24,7 @@ import utils.DBUtils;
  * @author Los_e
  */
 public class TrainerInCourseDAO {
-    
+
     public static ArrayList<TrainerInCourse> getAllTrainersPerCourse() {
 
         ArrayList<TrainerInCourse> list = new ArrayList<>();
@@ -57,11 +57,9 @@ public class TrainerInCourseDAO {
                 trainer.setLastname(rs.getString(11));
                 trainer.setSubject(rs.getString(12));
 
-
                 TrainerInCourse trainerincourse = new TrainerInCourse();
                 trainerincourse.setTrainer(trainer);
                 trainerincourse.setCourse(course);
-
 
                 list.add(trainerincourse);
 
@@ -85,8 +83,56 @@ public class TrainerInCourseDAO {
         return list;
 
     }
-    
-     public static ArrayList<Trainer> getTrainersNotAppointedToCourse(int courseid) {
+
+    public static ArrayList<Course> getCoursesAppointedToTrainer(int trainerid) {
+
+        ArrayList<Course> list = new ArrayList<Course>();
+        Connection con = DBUtils.getConnection();
+        PreparedStatement pst = null;
+        String sql = "SELECT * "
+                + "FROM courses c "
+                + "LEFT JOIN trainersincourses sc ON sc.courseid = c.courseid "
+                + "WHERE sc.trainerid=?;";
+
+        try {
+
+            pst = con.prepareStatement(sql);
+            pst.setInt(1, trainerid);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+
+                Course course = new Course();
+                course.setCourseid(rs.getInt(1));
+                course.setTitle(rs.getString(2));
+                course.setStream(rs.getString(3));
+                course.setType(rs.getString(4));
+                course.setStartdate(rs.getString(5));
+                course.setEnddate(rs.getString(6));
+
+                list.add(course);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TrainerInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            try {
+                pst.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(TrainerInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(TrainerInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return list;
+    }
+
+    public static ArrayList<Trainer> getTrainersNotAppointedToCourse(int courseid) {
 
         ArrayList<Trainer> list = new ArrayList<Trainer>();
         Connection con = DBUtils.getConnection();
@@ -119,7 +165,6 @@ public class TrainerInCourseDAO {
                 trainer.setLastname(rs.getString(3));
                 trainer.setSubject(rs.getString(4));
 
-
                 list.add(trainer);
 
             }
@@ -141,8 +186,8 @@ public class TrainerInCourseDAO {
 
         return list;
     }
-     
-     public static void insertTrainerInCourse(TrainerInCourse trainerincourse) {
+
+    public static void insertTrainerInCourse(TrainerInCourse trainerincourse) {
 
         Connection con = DBUtils.getConnection();
         PreparedStatement pst = null;
@@ -180,8 +225,8 @@ public class TrainerInCourseDAO {
 //        return result;
 
     }
-     
-     public static void deleteTrainerFromCourse(int trainerid, int courseid) {
+
+    public static void deleteTrainerFromCourse(int trainerid, int courseid) {
 
         Connection con = DBUtils.getConnection();
         PreparedStatement pst = null;
@@ -220,16 +265,16 @@ public class TrainerInCourseDAO {
 //        return result;
 
     }
-     
-     public static ArrayList<Trainer> getTrainersAppointedToCourse(int courseid) {
+
+    public static ArrayList<Trainer> getTrainersAppointedToCourse(int courseid) {
 
         ArrayList<Trainer> list = new ArrayList<Trainer>();
         Connection con = DBUtils.getConnection();
         PreparedStatement pst = null;
-        String sql = "SELECT * " +
-"FROM trainers s " +
-"LEFT JOIN trainersincourses sc ON sc.trainerid = s.trainerid " +
-"WHERE sc.courseid=?;";
+        String sql = "SELECT * "
+                + "FROM trainers s "
+                + "LEFT JOIN trainersincourses sc ON sc.trainerid = s.trainerid "
+                + "WHERE sc.courseid=?;";
 
         try {
 
@@ -244,7 +289,6 @@ public class TrainerInCourseDAO {
                 trainer.setFirstname(rs.getString(2));
                 trainer.setLastname(rs.getString(3));
                 trainer.setSubject(rs.getString(4));
-
 
                 list.add(trainer);
 
@@ -262,6 +306,75 @@ public class TrainerInCourseDAO {
                 con.close();
             } catch (SQLException ex) {
                 Logger.getLogger(TrainerDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return list;
+    }
+
+    public static ArrayList<StudentInCourse> getStudentsAppointedToTrainer(int trainerid) {
+
+        ArrayList<StudentInCourse> list = new ArrayList<StudentInCourse>();
+        Connection con = DBUtils.getConnection();
+        PreparedStatement pst = null;
+        String sql = "SELECT * FROM courses c "
+                + "inner JOIN studentsincourses sc ON sc.courseid = c.courseid "
+                + "inner join students s on sc.studentid = s.studentid "
+                + "inner join trainersincourses tc on sc.courseid = tc.courseid "
+                + "inner join trainers t on tc.trainerid = t.trainerid "
+                + "WHERE tc.trainerid = ? "
+                + "order by c.stream, c.type;";
+
+        try {
+
+            pst = con.prepareStatement(sql);
+            pst.setInt(1, trainerid);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+
+                Course course = new Course();
+                course.setCourseid(rs.getInt(1));
+                course.setTitle(rs.getString(2));
+                course.setStream(rs.getString(3));
+                course.setType(rs.getString(4));
+                course.setStartdate(rs.getString(5));
+                course.setEnddate(rs.getString(6));
+
+                Student student = new Student();
+                student.setStudentid(rs.getInt(10));
+                student.setFirstname(rs.getString(11));
+                student.setLastname(rs.getString(12));
+                student.setDateofbirth(rs.getString(13));
+                student.setTuitionfees(rs.getFloat(14));
+                student.setStream(rs.getString(15));
+                student.setType(rs.getString(16));
+
+                StudentInCourse studentincourse = new StudentInCourse();
+                studentincourse.setStudent(student);
+                studentincourse.setCourse(course);
+                if (rs.getInt(9) == 1) {
+                    studentincourse.setEnrolled(true);
+                } else {
+                    studentincourse.setEnrolled(false);
+                }
+
+                list.add(studentincourse);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TrainerInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            try {
+                pst.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(TrainerInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(TrainerInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
