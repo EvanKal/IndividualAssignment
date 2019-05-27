@@ -175,7 +175,29 @@ public class InputUtils {
         input = sc.nextLine();
         String regex = "^\\d{4}-\\d{2}-\\d{2}$";
 
-        while (!input.matches(regex) || !Utils.checkValidDate(input) || !Utils.checkDates(startdatestr, input) || input.equals("") || input.matches("^\\s*$")) {
+        while (!input.matches(regex) || !Utils.checkValidDate(input) || !Utils.checkDates(startdatestr, input, "End date") || input.equals("") || input.matches("^\\s*$")) {
+            if (input.equals("") || input.matches("^\\s*$")) {
+                System.out.println("No data input. Please type date in yyyy-mm-dd format.");
+                input = sc.nextLine();
+            } else if (!input.matches(regex)) {
+                System.out.println("Invalid data input. Please type date in yyyy-mm-dd format.");
+                input = sc.nextLine();
+            } else {
+                input = sc.nextLine();
+            }
+        }
+
+        return input;
+
+    }
+    
+    public static String inputStringSubmissionDate(Scanner sc, String startdatestr) {
+
+        String input;
+        input = sc.nextLine();
+        String regex = "^\\d{4}-\\d{2}-\\d{2}$";
+
+        while (!input.matches(regex) || !Utils.checkValidDate(input) || !Utils.checkDates(startdatestr, input, "Submission date") || input.equals("") || input.matches("^\\s*$")) {
             if (input.equals("") || input.matches("^\\s*$")) {
                 System.out.println("No data input. Please type date in yyyy-mm-dd format.");
                 input = sc.nextLine();

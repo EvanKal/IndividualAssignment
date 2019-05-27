@@ -43,12 +43,12 @@ public class Utils {
         }
     }
 
-    public static boolean checkDates(String startdatestr, String enddatestr) {
+    public static boolean checkDates(String startdatestr, String enddatestr, String typeofdate1) {
         LocalDate startdate = LocalDate.parse(startdatestr);
         LocalDate enddate = LocalDate.parse(enddatestr);
 
         if (startdate.isAfter(enddate)) {
-            System.out.println("End date " + enddate + " can't be before start date " + startdate);
+            System.out.println(typeofdate1+" " + enddate + " can't be before start date of the course: " + startdate);
             return false;
         } else {
             return true;
@@ -352,6 +352,56 @@ public class Utils {
                 System.out.println(course.toString());
             }
             if (choice == 6) {
+                System.out.println("Exiting...");
+                check = false;
+                domorestuff = false;
+            }
+
+        }
+    }
+    
+    public static void editCourseDates(Scanner sc, Course course) {
+
+        //Overloaded method
+        boolean check = true;
+        boolean domorestuff = false;
+
+        while (check) {
+            
+            System.out.println("Editing course " +  course.toString());
+            
+            if (!domorestuff) {
+                System.out.println("\nChoose what you want to do by typing the corresponding number.\n"
+                        + "\n1. Edit start date."
+                        + "\n2. Edit end date."
+                        + "\n3. Done editing.");
+            } else {
+                System.out.println("\nWant to edit more?\n"
+                        + "\n1. Edit start date."
+                        + "\n2. Edit end date."
+                        + "\n3. Done editing.");
+            }
+
+            int choice = InputUtils.inputInt(sc);
+
+            while (choice < 1 || choice > 3) {
+                System.out.println("Invalid choice. Please type a number again.");
+                choice = InputUtils.inputInt(sc);
+            }
+
+            if (choice == 1) {
+                System.out.println("Start date:");
+                course.setStartdate(InputUtils.inputStringDate(sc));
+                domorestuff = true;
+                System.out.println(course.toString());
+            }
+            if (choice == 2) {
+                System.out.println("End date:");
+                course.setEnddate(InputUtils.inputStringEndDate(sc, course.getStartdate().toString()));
+                domorestuff = true;
+                System.out.println(course.toString());
+            }
+            if (choice == 3) {
                 System.out.println("Exiting...");
                 check = false;
                 domorestuff = false;

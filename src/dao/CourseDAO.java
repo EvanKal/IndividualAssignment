@@ -39,7 +39,95 @@ public class CourseDAO {
                 course.setStream(rs.getString(3));
                 course.setType(rs.getString(4));
                 course.setStartdate(rs.getString(5));
-                course.setStartdate(rs.getString(6));
+                course.setEnddate(rs.getString(6));
+
+                list.add(course);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            try {
+                pst.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return list;
+    }
+    
+   public static ArrayList<Course> getAllCoursesOrderedByStartdatePerStreamType(String stream, String type) {
+
+        ArrayList<Course> list = new ArrayList<Course>();
+        Connection con = DBUtils.getConnection();
+        PreparedStatement pst = null;
+        String sql = "select * from courses where stream = ? and type = ? order by startdate";
+
+        try {
+            pst = con.prepareStatement(sql);
+            pst.setString(1, stream);
+            pst.setString(2, type);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+
+                Course course = new Course();
+                course.setCourseid(rs.getInt(1));
+                course.setTitle(rs.getString(2));
+                course.setStream(rs.getString(3));
+                course.setType(rs.getString(4));
+                course.setStartdate(rs.getString(5));
+                course.setEnddate(rs.getString(6));
+
+                list.add(course);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            try {
+                pst.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return list;
+    }
+    
+    public static ArrayList<Course> getAllCoursesOrderedByStreamType() {
+
+        ArrayList<Course> list = new ArrayList<Course>();
+        Connection con = DBUtils.getConnection();
+        PreparedStatement pst = null;
+        String sql = "select * from courses order by stream, type";
+
+        try {
+            pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery(sql);
+
+            while (rs.next()) {
+
+                Course course = new Course();
+                course.setCourseid(rs.getInt(1));
+                course.setTitle(rs.getString(2));
+                course.setStream(rs.getString(3));
+                course.setType(rs.getString(4));
+                course.setStartdate(rs.getString(5));
+                course.setEnddate(rs.getString(6));
 
                 list.add(course);
 

@@ -3,11 +3,23 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Los_e/Documents/NetBeansProjects/IndividualAssignment/src/dao/StudentsInCoursesDAO.java</file>
+            <file>file:/C:/Users/Los_e/Documents/NetBeansProjects/IndividualAssignment/src/model/Assignment.java</file>
+            <file>file:/C:/Users/Los_e/Documents/NetBeansProjects/IndividualAssignment/src/model/Student.java</file>
+            <file>file:/C:/Users/Los_e/Documents/NetBeansProjects/IndividualAssignment/src/dao/UserDAO.java</file>
+            <file>file:/C:/Users/Los_e/Documents/NetBeansProjects/IndividualAssignment/src/dao/TrainerDAO.java</file>
+            <file>file:/C:/Users/Los_e/Documents/NetBeansProjects/IndividualAssignment/src/dao/StudentDAO.java</file>
+            <file>file:/C:/Users/Los_e/Documents/NetBeansProjects/IndividualAssignment/src/utils/InputUtils.java</file>
+            <file>file:/C:/Users/Los_e/Documents/NetBeansProjects/IndividualAssignment/src/model/User.java</file>
+            <file>file:/C:/Users/Los_e/Documents/NetBeansProjects/IndividualAssignment/src/menus/HeadmasterMenu.java</file>
+            <file>file:/C:/Users/Los_e/Documents/NetBeansProjects/IndividualAssignment/src/utils/DBUtils.java</file>
             <file>file:/C:/Users/Los_e/Documents/NetBeansProjects/IndividualAssignment/src/model/School.java</file>
             <file>file:/C:/Users/Los_e/Documents/NetBeansProjects/IndividualAssignment/src/individualassignment/IndividualAssignment.java</file>
-            <file>file:/C:/Users/Los_e/Documents/NetBeansProjects/IndividualAssignment/src/dao/UserDAO.java</file>
+            <file>file:/C:/Users/Los_e/Documents/NetBeansProjects/IndividualAssignment/src/model/StudentInCourse.java</file>
             <file>file:/C:/Users/Los_e/Documents/NetBeansProjects/IndividualAssignment/src/utils/Utils.java</file>
-            <file>file:/C:/Users/Los_e/Documents/NetBeansProjects/IndividualAssignment/src/utils/InputUtils.java</file>
+            <file>file:/C:/Users/Los_e/Documents/NetBeansProjects/IndividualAssignment/src/dao/AssignmentDAO.java</file>
+            <file>file:/C:/Users/Los_e/Documents/NetBeansProjects/IndividualAssignment/src/model/Course.java</file>
+            <file>file:/C:/Users/Los_e/Documents/NetBeansProjects/IndividualAssignment/src/dao/CourseDAO.java</file>
         </group>
     </open-files>
 </project-private>

@@ -10,6 +10,8 @@ package model;
  * @author Los_e
  */
 public class IndividualAssignment extends Assignment {
+
+    private boolean submitted;
     private int oralmark;
     private int totalmark;
     
@@ -31,6 +33,14 @@ public class IndividualAssignment extends Assignment {
 
     public void setTotalmark(int totalmark) {
         this.totalmark = totalmark;
+    }
+    
+     public boolean isSubmitted() {
+        return submitted;
+    }
+
+    public void setSubmitted(boolean submitted) {
+        this.submitted = submitted;
     }
 
     @Override

@@ -6,9 +6,12 @@
 package menus;
 
 import dao.AssignmentDAO;
+import dao.AssignmentInCourseDAO;
 import dao.CourseDAO;
 import dao.StudentDAO;
+import dao.StudentInCourseDAO;
 import dao.TrainerDAO;
+import dao.TrainerInCourseDAO;
 import java.util.Scanner;
 import model.School;
 import utils.InputUtils;
@@ -55,6 +58,18 @@ public class HeadmasterMenu {
             }
             if (choice == 4) {
                 HeadmasterMenu.assignmentsCRUDMenu(sc);
+            }
+            if (choice == 5) {
+                HeadmasterMenu.studentsPerCoursesCRUDMenu(sc);
+            }
+            if (choice == 6) {
+                HeadmasterMenu.trainersPerCoursesCRUDMenu(sc);
+            }
+            if (choice == 7) {
+                HeadmasterMenu.assignmentsPerCoursesCRUDMenu(sc);
+            }
+            if (choice == 8) {
+                HeadmasterMenu.schedulePerCoursesCRUDMenu(sc);
             }
 //            if(choice == 5) {this.printAccessEntity("student", "students", this.studentList);}
 //            if(choice == 6) {this.printAccessEntity("course", "courses", this.courseList);}
@@ -182,4 +197,141 @@ public class HeadmasterMenu {
 
         }
     }
+    
+    public static void studentsPerCoursesCRUDMenu(Scanner sc) {
+
+        boolean check = true;
+
+        while (check) {
+            System.out.println("\nChoose what you want to do by typing the corresponding number.\n"
+                    + "\n1. Appoint students to a course."
+                    + "\n2. View all students per course."
+                    + "\n3. Hard enroll students to appointed course (students are supposed to do so themselves)."
+                    + "\n4. Dismiss students from a course."
+                    + "\n5. Back."
+            );
+
+            int choice = InputUtils.inputInt(sc);
+
+            while (choice < 1 || choice > 5) {
+                System.out.println("Invalid choice. Please type a number again.");
+                choice = InputUtils.inputInt(sc);
+            }
+
+            if (choice == 1) {School.appointStudentsToCourse(sc);}
+            if (choice == 2) {PrintUtils.printEntitiesPerEntityStudentInCourse(StudentInCourseDAO.getAllStudentsPerCourse());}
+            if (choice == 3) {School.enrollStudentsToCourse(sc);}
+            if (choice == 4) {School.dismissStudentsFromCourse(sc);}
+            if (choice == 5) {check = false;}
+        }
+    }
+    
+    public static void trainersPerCoursesCRUDMenu(Scanner sc) {
+
+        boolean check = true;
+
+        while (check) {
+            System.out.println("\nChoose what you want to do by typing the corresponding number.\n"
+                    + "\n1. Appoint trainers to a course."
+                    + "\n2. View all trainers per course."
+//                    + "\n3. Hard enroll students to appointed course (students are supposed to do so themselves)."
+                    + "\n3. Dismiss trainers from a course."
+                    + "\n4. Back."
+            );
+
+            int choice = InputUtils.inputInt(sc);
+
+            while (choice < 1 || choice > 4) {
+                System.out.println("Invalid choice. Please type a number again.");
+                choice = InputUtils.inputInt(sc);
+            }
+
+            if (choice == 1) {School.appointTrainersToCourse(sc);}
+            if (choice == 2) {PrintUtils.printEntitiesPerEntityTrainerInCourse(TrainerInCourseDAO.getAllTrainersPerCourse());}
+            if (choice == 3) {School.dismissTrainersFromCourse(sc);}
+            if (choice == 4) {check = false;}
+}
+ }
+    
+    public static void assignmentsPerCoursesCRUDMenu(Scanner sc) {
+
+        boolean check = true;
+
+        while (check) {
+            System.out.println("\nChoose what you want to do by typing the corresponding number.\n"
+                    + "\n1. Appoint assignments to a course."
+                    + "\n2. View all assignments per course."
+                    + "\n3. Edit submission date and time of assignment."
+                    + "\n4. Dismiss assignments from a course."
+                    + "\n5. Back."
+            );
+
+            int choice = InputUtils.inputInt(sc);
+
+            while (choice < 1 || choice >5) {
+                System.out.println("Invalid choice. Please type a number again.");
+                choice = InputUtils.inputInt(sc);
+            }
+
+            if (choice == 1) {School.appointAssignmentsToCourse(sc);}
+            if (choice == 2) {PrintUtils.printEntitiesPerEntityAssignmentInCourse(AssignmentInCourseDAO.getAllAssignmentsPerCourse());}
+            if (choice == 3) {School.editSubmissiondatetimeOfAssignment(sc);}
+            if (choice == 4) {School.dismissAssignmentsFromCourse(sc);}
+            if (choice == 5) {check = false;}
+}
+ }
+    
+    
+    public static void schedulePerCoursesCRUDMenu(Scanner sc) {
+
+        boolean check = true;
+
+        while (check) {
+            System.out.println("\nChoose what you want to do by typing the corresponding number.\n"
+                    + "\n1. View schedule per stream and type."
+                    + "\n2. Edit schedule per stream and type."
+                    + "\n3. Back."
+            );
+
+            int choice = InputUtils.inputInt(sc);
+
+            while (choice < 1 || choice >3) {
+                System.out.println("Invalid choice. Please type a number again.");
+                choice = InputUtils.inputInt(sc);
+            }
+
+            if (choice == 1) {HeadmasterMenu.schedulePerCoursesChoose(sc);}
+            if (choice == 2) {School.pickAndEditCourseDates(sc);}
+            if (choice == 3) {check = false;}
+}
+ }
+    
+    public static void schedulePerCoursesChoose(Scanner sc) {
+
+        boolean check = true;
+
+        while (check) {
+            System.out.println("\nChoose what you want to do by typing the corresponding number.\n"
+                    + "\n1. JAVA - FULL."
+                    + "\n2. JAVA - PART."
+                    + "\n3. C# - FULL."
+                    + "\n4. C# - PART."
+                    + "\n5. Back."
+            );
+
+            int choice = InputUtils.inputInt(sc);
+
+            while (choice < 1 || choice >5) {
+                System.out.println("Invalid choice. Please type a number again.");
+                choice = InputUtils.inputInt(sc);
+            }
+
+            if (choice == 1) {PrintUtils.printListCoursesScheduleByStreamType(CourseDAO.getAllCoursesOrderedByStartdatePerStreamType("JAVA", "FULL"));}
+            if (choice == 2) {PrintUtils.printListCoursesScheduleByStreamType(CourseDAO.getAllCoursesOrderedByStartdatePerStreamType("JAVA", "PART"));}
+            if (choice == 3) {PrintUtils.printListCoursesScheduleByStreamType(CourseDAO.getAllCoursesOrderedByStartdatePerStreamType("C#", "FULL"));}
+            if (choice == 4) {PrintUtils.printListCoursesScheduleByStreamType(CourseDAO.getAllCoursesOrderedByStartdatePerStreamType("C#", "PART"));}
+            if (choice == 5) {check = false;}
+}
+ }
+    
 }

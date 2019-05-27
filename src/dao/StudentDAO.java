@@ -21,7 +21,7 @@ import utils.DBUtils;
  * @author Los_e
  */
 public class StudentDAO {
-    
+
     public static ArrayList<Student> getAllStudents() {
 
         ArrayList<Student> list = new ArrayList<Student>();
@@ -66,7 +66,7 @@ public class StudentDAO {
         return list;
     }
 
-    public Student getStudentById(int studentid) {
+    public static Student getStudentById(int studentid) {
 
         Student student = new Student();
         Connection con = DBUtils.getConnection();
@@ -108,7 +108,7 @@ public class StudentDAO {
 
         return student;
     }
-    
+
     public static void insertStudent(Student student) {
 
         Connection con = DBUtils.getConnection();
@@ -152,7 +152,6 @@ public class StudentDAO {
 
     }
 
-
     public static void updateStudent(Student student) {
 
         Connection con = DBUtils.getConnection();
@@ -195,7 +194,7 @@ public class StudentDAO {
 //        return result;
 
     }
-    
+
     public static void deleteStudent(int studentid) {
 
         Connection con = DBUtils.getConnection();
@@ -204,7 +203,7 @@ public class StudentDAO {
         boolean result = false;
 
         try {
-            pst = con. prepareStatement(sql);
+            pst = con.prepareStatement(sql);
             pst.setInt(1, studentid);
             pst.executeUpdate();
 

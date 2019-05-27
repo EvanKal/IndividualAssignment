@@ -14,52 +14,33 @@ import java.time.format.DateTimeFormatter;
  *
  * @author Los_e
  */
-public class Assignment {
+public class AssignmentInCourse {
 
-    private int assignmentid;
-    private String title;
-    private String description;
+    private Assignment assignment;
+    private Course course;
     private LocalDate submissiondate;
     private LocalTime submissiontime;
     private LocalDateTime submissiondatetime;
     private String submissiondatetimetoparsedstring;
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public Assignment() {
+    public AssignmentInCourse() {
     }
 
-    public Assignment(Assignment assignment) {
-        this.assignmentid = assignment.getAssignmentid();
-        this.title = assignment.getTitle();
-        this.description = assignment.getDescription();
-        this.submissiondate = assignment.getSubmissiondate();
-        this.submissiontime = assignment.getSubmissiontime();
-        this.submissiondatetime = assignment.getSubmissiondatetime();
-        this.submissiondatetimetoparsedstring = assignment.getSubmissiondatetimetoparsedstring();
+    public Assignment getAssignment() {
+        return assignment;
     }
 
-    public int getAssignmentid() {
-        return assignmentid;
+    public void setAssignment(Assignment assignment) {
+        this.assignment = assignment;
     }
 
-    public void setAssignmentid(int assignmentid) {
-        this.assignmentid = assignmentid;
+    public Course getCourse() {
+        return course;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     public LocalDate getSubmissiondate() {
@@ -92,13 +73,6 @@ public class Assignment {
         this.submissiondatetimetoparsedstring = this.submissiondatetime.format(formatter);
     }
 
-    public String getSubmissiondatetimetoparsedstring() {
-        return submissiondatetimetoparsedstring;
-    }
-
-//    public void setSubmissiondatetimetoparsedstring(String submissiondatetimetoparsedstring) {
-//        this.submissiondatetimetoparsedstring = submissiondatetimetoparsedstring;
-//    }
     public DateTimeFormatter getFormatter() {
         return formatter;
     }
@@ -107,9 +81,8 @@ public class Assignment {
         this.formatter = formatter;
     }
 
-    @Override
-    public String toString() {
-        return "Assignment: " + assignmentid + " - " + title + " - " + description;
+    public String getSubmissiondatetimetoparsedstring() {
+        return submissiondatetimetoparsedstring;
     }
 
 }
