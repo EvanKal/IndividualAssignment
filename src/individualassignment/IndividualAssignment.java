@@ -27,8 +27,11 @@ public class IndividualAssignment {
 
         School school = new School();
         
-        school.initiate();
-
+        school.setLoggedinuser(UserDAO.getUserTryingToLogIn("student2"));
+        
+        while (true) {
+                school.initiate();
+        }
 //PrintUtils.printList(StudentDAO.getAllStudents());
 
 //Process to add new student

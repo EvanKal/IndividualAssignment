@@ -9,6 +9,7 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import dao.AssignmentDAO;
 import dao.AssignmentInCourseDAO;
 import dao.CourseDAO;
+import dao.IndividualAssignmentDAO;
 import dao.StudentDAO;
 import dao.StudentInCourseDAO;
 import dao.TrainerDAO;
@@ -20,6 +21,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Scanner;
 import menus.HeadmasterMenu;
+import menus.StudentMenu;
 import utils.InputUtils;
 import utils.Utils;
 
@@ -51,12 +53,13 @@ public class School {
 //            System.out.println(loggedinuser.toString());
 //
 //        }
-        setLoggedinuser(Utils.DefaultLogInAsHeadmaster());
-
+//        setLoggedinuser(Utils.DefaultLogInAsHeadmaster());
         System.out.println("Welcome " + loggedinuser.getUsername() + "!");
 
         if (loggedinuser.getRole().equals("headmaster")) {
             HeadmasterMenu.headmasterMainMenu(sc);
+        } else if (loggedinuser.getRole().equals("student")) {
+            StudentMenu.studentMainMenu(sc, this);
         }
 
     }
@@ -177,10 +180,10 @@ public class School {
         }
 
     }
-    
+
     public static void pickAndEditCourseDates(Scanner sc) {
         System.out.println("Editing course dates");
-        
+
         System.out.println("Pick stream");
         String stream = InputUtils.inputStringStream(sc);
         System.out.println("Pick type");
@@ -366,6 +369,7 @@ public class School {
                     studentincourse.setEnrolled(true);
 
                     StudentInCourseDAO.updateStudentInCourse(studentincourse);
+                    School.appointAssignmentsToStudent(course, studentlist.get(index - 1));
                 }
             } else {
                 System.out.println("Currently no students to be enrolled.");
@@ -579,6 +583,82 @@ public class School {
         }
 
     }
-    
 
+    public static void enrollStudentToCourses(Scanner sc, int studentid) {
+
+        System.out.println("Enrolling to course");
+
+        ArrayList<Course> courselist = StudentInCourseDAO.getCoursesStudentIsNotEnrolledTo(studentid);
+
+        if (courselist.size() > 0) {
+
+            System.out.println("Printing courses that student with ID " + studentid + "has not been enrolled to.");
+
+            ArrayList<Integer> courseschosen = Utils.printListElementsAndCollectChoices(sc, courselist);
+
+            for (Integer index : courseschosen) {
+                StudentInCourse studentincourse = new StudentInCourse();
+                Course course = courselist.get(index - 1);
+                Student student = StudentDAO.getStudentById(studentid);
+
+                studentincourse.setCourse(course);
+                studentincourse.setStudent(student);
+                studentincourse.setEnrolled(true);
+
+                StudentInCourseDAO.updateStudentInCourse(studentincourse);
+                School.appointAssignmentsToStudent(course, student);
+            }
+        } else {
+            System.out.println("Currently no courses to be enrolled to.");
+        }
+
+    }
+    
+    public static void submitAssignment(Scanner sc, int studentid) {
+
+        System.out.println("Submitting assignments");
+
+        ArrayList<IndividualAssignment> assignmentlist = IndividualAssignmentDAO.getNotSubmittedIndividualAssignmentsByStudentId(studentid);
+
+        if (assignmentlist.size() > 0) {
+
+            System.out.println("Printing not submitted assignments of student with ID " + studentid);
+
+            ArrayList<Integer> assignmentschosen = Utils.printListElementsAndCollectChoicesAssignments(sc, assignmentlist);
+
+            for (Integer index : assignmentschosen) {
+                
+                IndividualAssignment individualassignment = assignmentlist.get(index - 1);
+                
+                individualassignment.setSubmitted(true);
+
+                IndividualAssignmentDAO.updateIndividualAssignment(individualassignment);
+            }
+        } else {
+            System.out.println("Currently no courses to be enrolled to.");
+        }
+
+    }
+
+    public static void appointAssignmentsToStudent(Course course, Student student) {
+
+        ArrayList<Assignment> assignmentlist = AssignmentInCourseDAO.getAssignmentsAppointedToCourse(course.getCourseid());
+
+        if (assignmentlist.size() > 0) {
+
+            for (Assignment assignment : assignmentlist) {
+                IndividualAssignment individualassignment = new IndividualAssignment(assignment);
+
+                individualassignment.setStudent(student);
+                individualassignment.setAssignment(assignment);
+                individualassignment.setCourseid(course.getCourseid());
+
+                IndividualAssignmentDAO.insertIndividualAssignment(individualassignment);
+            }
+        } else {
+            System.out.println("Currently no assignments in course " + course.getTitle() + " to be appointed to student");
+
+        }
+
+    }
 }

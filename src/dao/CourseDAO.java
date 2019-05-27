@@ -63,6 +63,48 @@ public class CourseDAO {
         return list;
     }
     
+    public static Course getCourseById(int courseid) {
+
+        Course course = new Course();
+        Connection con = DBUtils.getConnection();
+        PreparedStatement pst = null;
+        String sql = "select * from courses where courseid = ?";
+
+        try {
+            pst = con.prepareStatement(sql);
+            pst.setInt(1, courseid);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+
+                course.setCourseid(rs.getInt(1));
+                course.setTitle(rs.getString(2));
+                course.setStream(rs.getString(3));
+                course.setType(rs.getString(4));
+                course.setStartdate(rs.getString(5));
+                course.setEnddate(rs.getString(6));
+
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            try {
+                pst.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return course;
+    }
+    
    public static ArrayList<Course> getAllCoursesOrderedByStartdatePerStreamType(String stream, String type) {
 
         ArrayList<Course> list = new ArrayList<Course>();
@@ -151,48 +193,48 @@ public class CourseDAO {
         return list;
     }
 
-    public Course getCourseById(int courseid) {
-
-        Course course = new Course();
-        Connection con = DBUtils.getConnection();
-        PreparedStatement pst = null;
-        String sql = "select * from courses where courseid=?;";
-
-        try {
-
-            pst = con.prepareStatement(sql);
-            pst.setInt(1, courseid);
-            ResultSet rs = pst.executeQuery();
-
-            while (rs.next()) {
-
-                course.setCourseid(rs.getInt(1));
-                course.setTitle(rs.getString(2));
-                course.setStream(rs.getString(3));
-                course.setType(rs.getString(4));
-                course.setStartdate(rs.getString(5));
-                course.setStartdate(rs.getString(6));
-                
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-
-            try {
-                pst.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            try {
-                con.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-
-        return course;
-    }
-    
+//    public Course getCourseById(int courseid) {
+//
+//        Course course = new Course();
+//        Connection con = DBUtils.getConnection();
+//        PreparedStatement pst = null;
+//        String sql = "select * from courses where courseid=?;";
+//
+//        try {
+//
+//            pst = con.prepareStatement(sql);
+//            pst.setInt(1, courseid);
+//            ResultSet rs = pst.executeQuery();
+//
+//            while (rs.next()) {
+//
+//                course.setCourseid(rs.getInt(1));
+//                course.setTitle(rs.getString(2));
+//                course.setStream(rs.getString(3));
+//                course.setType(rs.getString(4));
+//                course.setStartdate(rs.getString(5));
+//                course.setStartdate(rs.getString(6));
+//                
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        } finally {
+//
+//            try {
+//                pst.close();
+//            } catch (SQLException ex) {
+//                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//            try {
+//                con.close();
+//            } catch (SQLException ex) {
+//                Logger.getLogger(CourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
+//
+//        return course;
+//    }
+//    
     public static void insertCourse(Course course) {
 
         Connection con = DBUtils.getConnection();

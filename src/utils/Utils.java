@@ -102,6 +102,43 @@ public class Utils {
 
         return choices;
     }
+    
+    public static ArrayList<Integer> printListElementsAndCollectChoicesAssignments(Scanner sc, ArrayList arraylist) {
+
+        //Returns an arrayList of integers corresponding to the indexes of the user's choices
+        String input;
+        boolean check = true;
+        ArrayList<Integer> choices = new ArrayList<>();
+
+        PrintUtils.printListAssignmentsForStudent(arraylist);
+        System.out.println("Choose one " + arraylist.get(0).getClass().getSimpleName() + " or more by typing their item number. When done type 'End'. If you want to add all of the students, type 'All'.");
+
+        while (check) {
+            input = sc.nextLine();
+            String regex1 = "^[0-9]*$";
+
+            if (!input.matches(regex1) || input.equals("")) {
+                if (input.matches("[Ee]nd")) {
+                    check = false;
+                } else if (input.matches("[Aa]ll")) {
+                    choices.clear();
+                    for (int i = 0; i < arraylist.size(); i++) {
+                        choices.add(i + 1);
+                    }
+                    System.out.println("Added all elements in list.");
+                    check = false;
+                } else {
+                    System.out.println("Invalid data input. Please type an integer");
+                }
+            } else if (!(Integer.parseInt(input) <= arraylist.size()) || Integer.parseInt(input) == 0) {
+                System.out.println("Invalid data input. Invalid integer (integer cannot be greater than the size of the list, or zero)");
+            } else {
+                choices.add(Integer.parseInt(input));
+            }
+        }
+
+        return choices;
+    }
 
     public static int printListElementsAndPickOne(Scanner sc, ArrayList arraylist) {
 

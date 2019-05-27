@@ -5,7 +5,8 @@
  */
 package utils;
 
-import Classes.IndividualAssignment;
+import dao.CourseDAO;
+import model.IndividualAssignment;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class PrintUtils {
 
     }
 
-    public static void printListCoursesScheduleByStreamType(ArrayList<Course> arraylist) {
+    public static void printListCoursesSchedule(ArrayList<Course> arraylist) {
 
         if (arraylist.size() > 0) {
             System.out.println("\nPrinting list with " + arraylist.size() + " elements:");
@@ -70,6 +71,78 @@ public class PrintUtils {
 
             }
 
+        } else if (arraylist.isEmpty()) {
+            System.out.println("Currently no items in list");
+        }
+
+    }
+
+    public static void printListCoursesDailyScheduleForStudent(ArrayList<StudentInCourse> arraylist) {
+
+        if (arraylist.size() > 0) {
+            System.out.println("\nPrinting list with " + arraylist.size() + " elements:");
+            LocalDate dateprinted = arraylist.get(0).getCourse().getStartdate();
+            LocalDate lastdatetobeprinted = arraylist.get(arraylist.size() - 1).getCourse().getEnddate().plusDays(1);
+            int j = 0;
+            System.out.println("\n>>> Schedule for student with id: " + arraylist.get(0).getStudent().getStudentid());
+
+            while (dateprinted.isBefore(lastdatetobeprinted)) {
+                String output = dateprinted.toString();
+
+                if (DayOfWeek.from(dateprinted).getValue() != 6 && DayOfWeek.from(dateprinted).getValue() != 7) {
+                    for (int i = 0; i < arraylist.size(); i++) {
+
+                        if (dateprinted.isBefore(arraylist.get(i).getCourse().getEnddate().plusDays(1))
+                                && dateprinted.isAfter(arraylist.get(i).getCourse().getStartdate().minusDays(1))) {
+
+                            if (arraylist.get(i).isEnrolled()) {
+                                output = output + "\n* Enrolled: " + arraylist.get(i).getCourse().getTitle();
+                            } else {
+                                output = output + "\n* Not enrolled: " + arraylist.get(i).getCourse().getTitle();
+
+                            }
+
+                        }
+                    }
+                } else {
+                    output = output + "\n*" + "WEEKEND";
+                }
+                System.out.println(output);
+                j = j + 1;
+                dateprinted = dateprinted.plusDays(1);
+
+            }
+
+        } else if (arraylist.isEmpty()) {
+            System.out.println("Currently no items in list");
+        }
+
+    }
+
+    public static void printListAssignmentsForStudent(ArrayList<IndividualAssignment> arraylist) {
+
+        if (arraylist.size() > 0) {
+            System.out.println("\nPrinting list with " + arraylist.size() + " elements:");
+
+            System.out.println("\n>>> Assignment submission dates for student with id: " + arraylist.get(0).getStudent().getStudentid());
+
+            int courseid = 0;
+
+            for (int i = 0; i < arraylist.size(); i++) {
+
+                if (courseid != arraylist.get(i).getCourseid()) {
+                    System.out.println("\nCourse: " + CourseDAO.getCourseById(arraylist.get(i).getCourseid()).getTitle());
+                } else {
+                }
+
+                if (arraylist.get(i).isSubmitted()) {
+                    System.out.println((i+1) + " Submitted: " + arraylist.get(i).getTitle() + " by " + arraylist.get(i).getSubmissiondatetime());
+                } else {
+                    System.out.println((i + 1) + " Not submitted: " + arraylist.get(i).getTitle() + " by " + arraylist.get(i).getSubmissiondatetime());
+                }
+
+                courseid = arraylist.get(i).getCourseid();
+            }
         } else if (arraylist.isEmpty()) {
             System.out.println("Currently no items in list");
         }

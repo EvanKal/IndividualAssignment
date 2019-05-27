@@ -71,15 +71,9 @@ public class HeadmasterMenu {
             if (choice == 8) {
                 HeadmasterMenu.schedulePerCoursesCRUDMenu(sc);
             }
-//            if(choice == 5) {this.printAccessEntity("student", "students", this.studentList);}
-//            if(choice == 6) {this.printAccessEntity("course", "courses", this.courseList);}
-//            if(choice == 7) {this.printAccessEntity("trainer", "trainers", this.trainerList);}
-//            if(choice == 8) {this.printAccessEntity("assignment", "assignments", this.assignmentList);}
             if (choice == 9) {
                 check = false;
             }
-//            if(choice == 10) {System.out.println("Printing student's enrolled to more than one course: "); this.printStudentsToMoreThanOneCourse(this.studentList);}
-//            if(choice == 11) {this.createSyntheticData();}
         }
     }
 
@@ -326,10 +320,10 @@ public class HeadmasterMenu {
                 choice = InputUtils.inputInt(sc);
             }
 
-            if (choice == 1) {PrintUtils.printListCoursesScheduleByStreamType(CourseDAO.getAllCoursesOrderedByStartdatePerStreamType("JAVA", "FULL"));}
-            if (choice == 2) {PrintUtils.printListCoursesScheduleByStreamType(CourseDAO.getAllCoursesOrderedByStartdatePerStreamType("JAVA", "PART"));}
-            if (choice == 3) {PrintUtils.printListCoursesScheduleByStreamType(CourseDAO.getAllCoursesOrderedByStartdatePerStreamType("C#", "FULL"));}
-            if (choice == 4) {PrintUtils.printListCoursesScheduleByStreamType(CourseDAO.getAllCoursesOrderedByStartdatePerStreamType("C#", "PART"));}
+            if (choice == 1) {PrintUtils.printListCoursesSchedule(CourseDAO.getAllCoursesOrderedByStartdatePerStreamType("JAVA", "FULL"));}
+            if (choice == 2) {PrintUtils.printListCoursesSchedule(CourseDAO.getAllCoursesOrderedByStartdatePerStreamType("JAVA", "PART"));}
+            if (choice == 3) {PrintUtils.printListCoursesSchedule(CourseDAO.getAllCoursesOrderedByStartdatePerStreamType("C#", "FULL"));}
+            if (choice == 4) {PrintUtils.printListCoursesSchedule(CourseDAO.getAllCoursesOrderedByStartdatePerStreamType("C#", "PART"));}
             if (choice == 5) {check = false;}
 }
  }

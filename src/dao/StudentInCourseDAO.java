@@ -48,7 +48,76 @@ public class StudentInCourseDAO {
                 course.setStream(rs.getString(3));
                 course.setType(rs.getString(4));
                 course.setStartdate(rs.getString(5));
-                course.setStartdate(rs.getString(6));
+                course.setEnddate(rs.getString(6));
+
+                Student student = new Student();
+                student.setStudentid(rs.getInt(10));
+                student.setFirstname(rs.getString(11));
+                student.setLastname(rs.getString(12));
+                student.setDateofbirth(rs.getString(13));
+                student.setTuitionfees(rs.getFloat(14));
+                student.setStream(rs.getString(15));
+                student.setType(rs.getString(16));
+
+                StudentInCourse studentincourse = new StudentInCourse();
+                studentincourse.setStudent(student);
+                studentincourse.setCourse(course);
+                if (rs.getInt(9) == 1) {
+                    studentincourse.setEnrolled(true);
+                } else {
+                    studentincourse.setEnrolled(false);
+                }
+
+                list.add(studentincourse);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            try {
+                pst.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return list;
+
+    }
+    
+    public static ArrayList<StudentInCourse> getAllCoursesPerStudent(int studentid) {
+
+        ArrayList<StudentInCourse> list = new ArrayList<>();
+        Connection con = DBUtils.getConnection();
+        PreparedStatement pst = null;
+        String sql = "SELECT  * FROM courses c "
+                + "inner join "
+                + "studentsincourses sc on sc.courseid = c.courseid "
+                + "inner join "
+                + "students s on sc.studentid = s.studentid "
+                + "where sc.studentid = ? "
+                + "order by c.startdate;";
+
+        try {
+            pst = con.prepareStatement(sql);
+            pst.setInt(1, studentid);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+
+                Course course = new Course();
+                course.setCourseid(rs.getInt(1));
+                course.setTitle(rs.getString(2));
+                course.setStream(rs.getString(3));
+                course.setType(rs.getString(4));
+                course.setStartdate(rs.getString(5));
+                course.setEnddate(rs.getString(6));
 
                 Student student = new Student();
                 student.setStudentid(rs.getInt(10));
@@ -133,33 +202,33 @@ public class StudentInCourseDAO {
 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
 
             try {
                 pst.close();
             } catch (SQLException ex) {
-                Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
                 con.close();
             } catch (SQLException ex) {
-                Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
         return list;
     }
-    
+
     public static ArrayList<Student> getStudentsAppointedToCourse(int courseid) {
 
         ArrayList<Student> list = new ArrayList<Student>();
         Connection con = DBUtils.getConnection();
         PreparedStatement pst = null;
-        String sql = "SELECT * " +
-"FROM students s " +
-"LEFT JOIN studentsincourses sc ON sc.studentid = s.studentid " +
-"WHERE sc.courseid=?;";
+        String sql = "SELECT * "
+                + "FROM students s "
+                + "LEFT JOIN studentsincourses sc ON sc.studentid = s.studentid "
+                + "WHERE sc.courseid=?;";
 
         try {
 
@@ -182,18 +251,18 @@ public class StudentInCourseDAO {
 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
 
             try {
                 pst.close();
             } catch (SQLException ex) {
-                Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
                 con.close();
             } catch (SQLException ex) {
-                Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -231,18 +300,114 @@ public class StudentInCourseDAO {
 
             }
         } catch (SQLException ex) {
-            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
 
             try {
                 pst.close();
             } catch (SQLException ex) {
-                Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
                 con.close();
             } catch (SQLException ex) {
-                Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return list;
+    }
+
+    public static ArrayList<Course> getCoursesAppointedToStudent(int studentid) {
+
+        ArrayList<Course> list = new ArrayList<Course>();
+        Connection con = DBUtils.getConnection();
+        PreparedStatement pst = null;
+        String sql = "SELECT * "
+                + "FROM courses c "
+                + "LEFT JOIN studentsincourses sc ON sc.courseid = c.courseid "
+                + "WHERE sc.studentid=?;";
+
+        try {
+
+            pst = con.prepareStatement(sql);
+            pst.setInt(1, studentid);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+
+                Course course = new Course();
+                course.setCourseid(rs.getInt(1));
+                course.setTitle(rs.getString(2));
+                course.setStream(rs.getString(3));
+                course.setType(rs.getString(4));
+                course.setStartdate(rs.getString(5));
+                course.setEnddate(rs.getString(6));
+
+                list.add(course);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            try {
+                pst.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return list;
+    }
+
+    public static ArrayList<Course> getCoursesStudentIsNotEnrolledTo(int studentid) {
+
+        ArrayList<Course> list = new ArrayList<Course>();
+        Connection con = DBUtils.getConnection();
+        PreparedStatement pst = null;
+        String sql = "SELECT * "
+                + "FROM courses c "
+                + "LEFT JOIN studentsincourses sc ON sc.courseid = c.courseid "
+                + "WHERE sc.studentid=? and sc.enrolled=0;";
+
+        try {
+
+            pst = con.prepareStatement(sql);
+            pst.setInt(1, studentid);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+
+                Course course = new Course();
+                course.setCourseid(rs.getInt(1));
+                course.setTitle(rs.getString(2));
+                course.setStream(rs.getString(3));
+                course.setType(rs.getString(4));
+                course.setStartdate(rs.getString(5));
+                course.setEnddate(rs.getString(6));
+
+                list.add(course);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            try {
+                pst.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -271,18 +436,18 @@ public class StudentInCourseDAO {
 
             result = true;
         } catch (SQLException ex) {
-            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
             result = false;
         } finally {
             try {
                 pst.close();
             } catch (SQLException ex) {
-                Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
                 con.close();
             } catch (SQLException ex) {
-                Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
@@ -315,18 +480,18 @@ public class StudentInCourseDAO {
 
             result = true;
         } catch (SQLException ex) {
-            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
             result = false;
         } finally {
             try {
                 pst.close();
             } catch (SQLException ex) {
-                Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
                 con.close();
             } catch (SQLException ex) {
-                Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
@@ -337,7 +502,7 @@ public class StudentInCourseDAO {
 //        return result;
 
     }
-    
+
     public static void deleteStudentFromCourse(int studentid, int courseid) {
 
         Connection con = DBUtils.getConnection();
@@ -355,18 +520,18 @@ public class StudentInCourseDAO {
 
             result = true;
         } catch (SQLException ex) {
-            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
             result = false;
         } finally {
             try {
                 pst.close();
             } catch (SQLException ex) {
-                Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
             try {
                 con.close();
             } catch (SQLException ex) {
-                Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }

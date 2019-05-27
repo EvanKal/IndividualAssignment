@@ -15,7 +15,8 @@ import java.time.format.DateTimeFormatter;
  * @author Los_e
  */
 public class Assignment {
-
+    
+    private int courseid;
     private int assignmentid;
     private String title;
     private String description;
@@ -36,6 +37,7 @@ public class Assignment {
         this.submissiontime = assignment.getSubmissiontime();
         this.submissiondatetime = assignment.getSubmissiondatetime();
         this.submissiondatetimetoparsedstring = assignment.getSubmissiondatetimetoparsedstring();
+        this.courseid = assignment.getCourseid();
     }
 
     public int getAssignmentid() {
@@ -106,6 +108,16 @@ public class Assignment {
     public void setFormatter(DateTimeFormatter formatter) {
         this.formatter = formatter;
     }
+
+    public int getCourseid() {
+        return courseid;
+    }
+
+    public void setCourseid(int courseid) {
+        this.courseid = courseid;
+    }
+    
+    
 
     @Override
     public String toString() {
