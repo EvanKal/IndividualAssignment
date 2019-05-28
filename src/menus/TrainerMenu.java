@@ -18,7 +18,7 @@ import utils.PrintUtils;
  * @author Los_e
  */
 public class TrainerMenu {
-    
+
     public static void trainerMainMenu(Scanner sc, School school) {
 
         boolean check = true;
@@ -29,7 +29,7 @@ public class TrainerMenu {
                     + "\n2. View all students per course."
                     + "\n3. View all the assignments per students per course."
                     + "\n4. Mark all the assignments per students per course."
-                    + "\n5. Back."
+                    + "\n5. Log out."
             );
 
             int choice = InputUtils.inputInt(sc);
@@ -46,15 +46,15 @@ public class TrainerMenu {
                 PrintUtils.printEntitiesPerEntityStudentInCourse(TrainerInCourseDAO.getStudentsAppointedToTrainer(school.getLoggedinuser().getUserid()));
             }
             if (choice == 3) {
-                PrintUtils.printAssignmentsPerStudentPerCourse(IndividualAssignmentDAO.getAllIndividualAssignments());
+                PrintUtils.printAssignmentsPerStudentPerCourse(IndividualAssignmentDAO.getAllIndividualAssignmentsByTrainer(school.getLoggedinuser().getUserid()));
             }
             if (choice == 4) {
-                School.markAssignments(sc);
+                School.markAssignments(sc, school.getLoggedinuser().getUserid());
             }
             if (choice == 5) {
+                school.setLoggedinuser(null);
                 check = false;
             }
         }
     }
 }
-

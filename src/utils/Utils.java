@@ -263,7 +263,7 @@ public class Utils {
         }
 
         System.out.println("Successfully logged in as: " + user.toString());
-
+        user.setPassword(null);
         return user;
     }
 

@@ -317,6 +317,55 @@ public class StudentInCourseDAO {
 
         return list;
     }
+    
+    public static ArrayList<Student> getStudentsEnrolledToCourse(int courseid) {
+
+        ArrayList<Student> list = new ArrayList<Student>();
+        Connection con = DBUtils.getConnection();
+        PreparedStatement pst = null;
+        String sql = "SELECT * "
+                + "FROM students s "
+                + "LEFT JOIN studentsincourses sc ON sc.studentid = s.studentid "
+                + "WHERE sc.courseid=? and sc.enrolled=1;";
+
+        try {
+
+            pst = con.prepareStatement(sql);
+            pst.setInt(1, courseid);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+
+                Student student = new Student();
+                student.setStudentid(rs.getInt(1));
+                student.setFirstname(rs.getString(2));
+                student.setLastname(rs.getString(3));
+                student.setDateofbirth(rs.getString(4));
+                student.setTuitionfees(rs.getFloat(5));
+                student.setStream(rs.getString(6));
+                student.setType(rs.getString(7));
+
+                list.add(student);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            try {
+                pst.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(StudentInCourseDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return list;
+    }
 
     public static ArrayList<Course> getCoursesAppointedToStudent(int studentid) {
 

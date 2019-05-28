@@ -23,7 +23,7 @@ import utils.PrintUtils;
  */
 public class HeadmasterMenu {
 
-    public static void headmasterMainMenu(Scanner sc) {
+    public static void headmasterMainMenu(Scanner sc, School school) {
 
         boolean check = true;
 
@@ -37,7 +37,7 @@ public class HeadmasterMenu {
                     + "\n6. CRUD on trainers per courses."
                     + "\n7. CRUD on assignments per courses."
                     + "\n8. CRUD on schedule per courses."
-                    + "\n9. Back."
+                    + "\n9. Log out."
             );
 
             int choice = InputUtils.inputInt(sc);
@@ -72,6 +72,7 @@ public class HeadmasterMenu {
                 HeadmasterMenu.schedulePerCoursesCRUDMenu(sc);
             }
             if (choice == 9) {
+                school.setLoggedinuser(null);
                 check = false;
             }
         }
@@ -87,7 +88,7 @@ public class HeadmasterMenu {
                     + "\n2. View all students."
                     + "\n3. Edit a student."
                     + "\n4. Delete a student."
-                    + "\n5. Back."
+                    + "\n5. Log out."
             );
 
             int choice = InputUtils.inputInt(sc);
@@ -228,7 +229,6 @@ public class HeadmasterMenu {
             System.out.println("\nChoose what you want to do by typing the corresponding number.\n"
                     + "\n1. Appoint trainers to a course."
                     + "\n2. View all trainers per course."
-//                    + "\n3. Hard enroll students to appointed course (students are supposed to do so themselves)."
                     + "\n3. Dismiss trainers from a course."
                     + "\n4. Back."
             );

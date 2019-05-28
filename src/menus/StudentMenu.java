@@ -17,7 +17,7 @@ import utils.PrintUtils;
  * @author Los_e
  */
 public class StudentMenu {
-    
+
     public static void studentMainMenu(Scanner sc, School school) {
 
         boolean check = true;
@@ -28,7 +28,7 @@ public class StudentMenu {
                     + "\n2. View daily schedule per course."
                     + "\n3. See marks and submission dates of the Assignments per Course."
                     + "\n4. Submit an assignment."
-                    + "\n5. Back."
+                    + "\n5. Log out."
             );
 
             int choice = InputUtils.inputInt(sc);
@@ -51,6 +51,7 @@ public class StudentMenu {
                 School.submitAssignment(sc, school.getLoggedinuser().getUserid());
             }
             if (choice == 5) {
+                school.setLoggedinuser(null);
                 check = false;
             }
         }

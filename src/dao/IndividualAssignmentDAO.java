@@ -96,6 +96,79 @@ public class IndividualAssignmentDAO {
         return list;
     }
     
+    public static ArrayList<IndividualAssignment> getAllIndividualAssignmentsByTrainer(int trainerid) {
+        ArrayList<IndividualAssignment> list = new ArrayList<IndividualAssignment>();
+        Connection con = DBUtils.getConnection();
+        PreparedStatement pst = null;
+        String sql = "SELECT   * FROM individualassignments ia "
+                + "inner join assignments a on a.assignmentid = ia.assignmentid "
+                + "inner join students s on s.studentid = ia.studentid "
+                + "inner join studentsincourses sc on sc.studentid = ia.studentid "
+                + "inner join assignmentsincourses ac on  ia.assignmentid = ac.assignmentid and sc.courseid = ac.courseid "
+                + "inner join courses c on ac.courseid = c.courseid "
+                + "inner join trainersincourses tc on tc.courseid = c.courseid "
+                + "where ac.courseid = ia.courseid and tc.trainerid = ? "
+                + "order by c.courseid, s.studentid;";
+
+        try {
+
+            pst = con.prepareStatement(sql);
+            pst.setInt(1, trainerid);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+
+                Assignment assignment = new Assignment();
+                assignment.setAssignmentid(rs.getInt(7));
+                assignment.setTitle(rs.getString(8));
+                assignment.setDescription(rs.getString(9));
+                assignment.setCourseid(rs.getInt(18));
+                assignment.setSubmissiondatetime(rs.getString(22));
+
+                Student student = new Student();
+                student.setStudentid(rs.getInt(10));
+                student.setFirstname(rs.getString(11));
+                student.setLastname(rs.getString(12));
+                student.setDateofbirth(rs.getString(13));
+                student.setTuitionfees(rs.getFloat(14));
+                student.setStream(rs.getString(15));
+                student.setType(rs.getString(16));
+
+                IndividualAssignment individualassignment = new IndividualAssignment(assignment);
+                individualassignment.setAssignment(assignment);
+                individualassignment.setStudent(student);
+
+                if (rs.getInt(4) == 0) {
+                    individualassignment.setSubmitted(false);
+                } else if (rs.getInt(4) == 1) {
+                    individualassignment.setSubmitted(true);
+                }
+
+                individualassignment.setOralmark(rs.getInt(5));
+                individualassignment.setTotalmark(rs.getInt(6));
+
+                list.add(individualassignment);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(IndividualAssignment.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            try {
+                pst.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(IndividualAssignment.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(IndividualAssignment.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return list;
+    }
+    
     public static ArrayList<IndividualAssignment> getAllSubmittedIndividualAssignments() {
         ArrayList<IndividualAssignment> list = new ArrayList<IndividualAssignment>();
         Connection con = DBUtils.getConnection();
@@ -112,6 +185,79 @@ public class IndividualAssignmentDAO {
         try {
 
             pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+
+            while (rs.next()) {
+
+                Assignment assignment = new Assignment();
+                assignment.setAssignmentid(rs.getInt(7));
+                assignment.setTitle(rs.getString(8));
+                assignment.setDescription(rs.getString(9));
+                assignment.setCourseid(rs.getInt(18));
+                assignment.setSubmissiondatetime(rs.getString(22));
+
+                Student student = new Student();
+                student.setStudentid(rs.getInt(10));
+                student.setFirstname(rs.getString(11));
+                student.setLastname(rs.getString(12));
+                student.setDateofbirth(rs.getString(13));
+                student.setTuitionfees(rs.getFloat(14));
+                student.setStream(rs.getString(15));
+                student.setType(rs.getString(16));
+
+                IndividualAssignment individualassignment = new IndividualAssignment(assignment);
+                individualassignment.setAssignment(assignment);
+                individualassignment.setStudent(student);
+
+                if (rs.getInt(4) == 0) {
+                    individualassignment.setSubmitted(false);
+                } else if (rs.getInt(4) == 1) {
+                    individualassignment.setSubmitted(true);
+                }
+
+                individualassignment.setOralmark(rs.getInt(5));
+                individualassignment.setTotalmark(rs.getInt(6));
+
+                list.add(individualassignment);
+
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(IndividualAssignment.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+
+            try {
+                pst.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(IndividualAssignment.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                con.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(IndividualAssignment.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return list;
+    }
+    
+    public static ArrayList<IndividualAssignment> getAllSubmittedIndividualAssignmentsByTrainer(int trainerid) {
+        ArrayList<IndividualAssignment> list = new ArrayList<IndividualAssignment>();
+        Connection con = DBUtils.getConnection();
+        PreparedStatement pst = null;
+        String sql = "SELECT   * FROM individualassignments ia "
+                + "inner join assignments a on a.assignmentid = ia.assignmentid "
+                + "inner join students s on s.studentid = ia.studentid "
+                + "inner join studentsincourses sc on sc.studentid = ia.studentid "
+                + "inner join assignmentsincourses ac on  ia.assignmentid = ac.assignmentid and sc.courseid = ac.courseid "
+                + "inner join courses c on ac.courseid = c.courseid "
+                + "inner join trainersincourses tc on tc.courseid = c.courseid "
+                + "where ac.courseid = ia.courseid and ia.submitted = 1 and tc.trainerid =? "
+                + "order by c.courseid, s.studentid;";
+
+        try {
+
+            pst = con.prepareStatement(sql);
+            pst.setInt(1, trainerid);
             ResultSet rs = pst.executeQuery();
 
             while (rs.next()) {

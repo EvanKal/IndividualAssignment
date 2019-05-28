@@ -47,18 +47,16 @@ public class School {
 
         System.out.println("Welcome");
 
-//        while (loggedinuser == null) {
-//
-//            System.out.println("Please log in.");
-//            setLoggedinuser(Utils.logIn(sc));
-//            System.out.println(loggedinuser.toString());
-//
-//        }
-//        setLoggedinuser(Utils.DefaultLogInAsHeadmaster());
+        while (loggedinuser == null) {
+
+            System.out.println("Please log in.");
+            setLoggedinuser(Utils.logIn(sc));
+        }
+
         System.out.println("Welcome " + loggedinuser.getUsername() + "!");
 
         if (loggedinuser.getRole().equals("headmaster")) {
-            HeadmasterMenu.headmasterMainMenu(sc);
+            HeadmasterMenu.headmasterMainMenu(sc, this);
         } else if (loggedinuser.getRole().equals("student")) {
             StudentMenu.studentMainMenu(sc, this);
         } else if (loggedinuser.getRole().equals("trainer")) {
@@ -128,9 +126,11 @@ public class School {
         if (studentlist.size() > 0) {
 
             int indexofstudent = Utils.printListElementsAndPickOne(sc, studentlist);
-            Utils.editEntity(sc, studentlist.get(indexofstudent - 1));
-            StudentDAO.updateStudent(studentlist.get(indexofstudent - 1));
 
+            if (indexofstudent > 0) {
+                Utils.editEntity(sc, studentlist.get(indexofstudent - 1));
+                StudentDAO.updateStudent(studentlist.get(indexofstudent - 1));
+            }
         }
 
     }
@@ -143,8 +143,10 @@ public class School {
         if (studentlist.size() > 0) {
 
             int indexofstudent = Utils.printListElementsAndPickOne(sc, studentlist);
-            UserDAO.deleteUser(studentlist.get(indexofstudent - 1).getStudentid());
 
+            if (indexofstudent > 0) {
+                UserDAO.deleteUser(studentlist.get(indexofstudent - 1).getStudentid());
+            }
         }
 
     }
@@ -177,9 +179,11 @@ public class School {
         if (courselist.size() > 0) {
 
             int indexofcourse = Utils.printListElementsAndPickOne(sc, courselist);
-            Utils.editEntity(sc, courselist.get(indexofcourse - 1));
-            CourseDAO.updateCourse(courselist.get(indexofcourse - 1));
 
+            if (indexofcourse > 0) {
+                Utils.editEntity(sc, courselist.get(indexofcourse - 1));
+                CourseDAO.updateCourse(courselist.get(indexofcourse - 1));
+            }
         }
 
     }
@@ -196,9 +200,11 @@ public class School {
         if (courselist.size() > 0) {
 
             int indexofcourse = Utils.printListElementsAndPickOne(sc, courselist);
-            Utils.editCourseDates(sc, courselist.get(indexofcourse - 1));
-            CourseDAO.updateCourse(courselist.get(indexofcourse - 1));
 
+            if (indexofcourse > 0) {
+                Utils.editCourseDates(sc, courselist.get(indexofcourse - 1));
+                CourseDAO.updateCourse(courselist.get(indexofcourse - 1));
+            }
         }
 
     }
@@ -211,8 +217,10 @@ public class School {
         if (courselist.size() > 0) {
 
             int indexofcourse = Utils.printListElementsAndPickOne(sc, courselist);
-            CourseDAO.deleteCourse(courselist.get(indexofcourse - 1).getCourseid());
+            if (indexofcourse > 0) {
 
+                CourseDAO.deleteCourse(courselist.get(indexofcourse - 1).getCourseid());
+            }
         }
 
     }
@@ -239,11 +247,14 @@ public class School {
         if (assignmentlist.size() > 0) {
 
             int indexofassignment = Utils.printListElementsAndPickOne(sc, assignmentlist);
-            Utils.editEntity(sc, assignmentlist.get(indexofassignment - 1));
-            AssignmentDAO.updateAssignment(assignmentlist.get(indexofassignment - 1));
 
+            if (indexofassignment > 0) {
+
+                Utils.editEntity(sc, assignmentlist.get(indexofassignment - 1));
+                AssignmentDAO.updateAssignment(assignmentlist.get(indexofassignment - 1));
+
+            }
         }
-
     }
 
     public static void pickAndDeleteAssignment(Scanner sc) {
@@ -254,8 +265,12 @@ public class School {
         if (assignmentlist.size() > 0) {
 
             int indexofassignment = Utils.printListElementsAndPickOne(sc, assignmentlist);
-            AssignmentDAO.deleteAssignment(assignmentlist.get(indexofassignment - 1).getAssignmentid());
 
+            if (indexofassignment > 0) {
+
+                AssignmentDAO.deleteAssignment(assignmentlist.get(indexofassignment - 1).getAssignmentid());
+
+            }
         }
 
     }
@@ -290,9 +305,12 @@ public class School {
         if (trainerlist.size() > 0) {
 
             int indexoftrainer = Utils.printListElementsAndPickOne(sc, trainerlist);
+            
+                                    if(indexoftrainer>0) {
+
             Utils.editEntity(sc, trainerlist.get(indexoftrainer - 1));
             TrainerDAO.updateTrainer(trainerlist.get(indexoftrainer - 1));
-
+                                    }
         }
 
     }
@@ -305,8 +323,11 @@ public class School {
         if (trainerlist.size() > 0) {
 
             int indexoftrainer = Utils.printListElementsAndPickOne(sc, trainerlist);
-            UserDAO.deleteUser(trainerlist.get(indexoftrainer - 1).getTrainerid());
+            
+                                                if(indexoftrainer>0) {
 
+            UserDAO.deleteUser(trainerlist.get(indexoftrainer - 1).getTrainerid());
+                                                }
         }
 
     }
@@ -321,26 +342,28 @@ public class School {
             ArrayList<StudentInCourse> list = new ArrayList();
 
             int indexofcourse = Utils.printListElementsAndPickOne(sc, courselist);
-            Course course = courselist.get(indexofcourse - 1);
 
-            ArrayList<Student> studentlist = StudentInCourseDAO.getStudentsNotAppointedToCourse(course.getCourseid(), course.getStream(), course.getType());
+            if (indexofcourse > 0) {
+                Course course = courselist.get(indexofcourse - 1);
 
-            if (studentlist.size() > 0) {
-                ArrayList<Integer> studentschosen = Utils.printListElementsAndCollectChoices(sc, studentlist);
+                ArrayList<Student> studentlist = StudentInCourseDAO.getStudentsNotAppointedToCourse(course.getCourseid(), course.getStream(), course.getType());
 
-                for (Integer index : studentschosen) {
-                    StudentInCourse studentincourse = new StudentInCourse();
+                if (studentlist.size() > 0) {
+                    ArrayList<Integer> studentschosen = Utils.printListElementsAndCollectChoices(sc, studentlist);
 
-                    studentincourse.setCourse(course);
-                    studentincourse.setStudent(studentlist.get(index - 1));
-                    studentincourse.setEnrolled(false);
+                    for (Integer index : studentschosen) {
+                        StudentInCourse studentincourse = new StudentInCourse();
 
-                    StudentInCourseDAO.insertStudentInCourse(studentincourse);
+                        studentincourse.setCourse(course);
+                        studentincourse.setStudent(studentlist.get(index - 1));
+                        studentincourse.setEnrolled(false);
+
+                        StudentInCourseDAO.insertStudentInCourse(studentincourse);
+                    }
+                } else {
+                    System.out.println("Currently no students available to be appointed to a " + course.getStream() + " " + course.getType() + "course");
                 }
-            } else {
-                System.out.println("Currently no students available to be appointed to a " + course.getStream() + " " + course.getType() + "course");
             }
-
         }
 
     }
@@ -356,29 +379,31 @@ public class School {
             ArrayList<StudentInCourse> list = new ArrayList();
 
             int indexofcourse = Utils.printListElementsAndPickOne(sc, courselist);
-            Course course = courselist.get(indexofcourse - 1);
 
-            System.out.println("Printing not enrolled users to course " + course.toString());
-            ArrayList<Student> studentlist = StudentInCourseDAO.getStudentsNotEnrolledToCourse(course.getCourseid());
+            if (indexofcourse > 0) {
+                Course course = courselist.get(indexofcourse - 1);
 
-            if (studentlist.size() > 0) {
-                ArrayList<Integer> studentschosen = Utils.printListElementsAndCollectChoices(sc, studentlist);
+                System.out.println("Printing not enrolled users to course " + course.toString());
+                ArrayList<Student> studentlist = StudentInCourseDAO.getStudentsNotEnrolledToCourse(course.getCourseid());
 
-                for (Integer index : studentschosen) {
-                    StudentInCourse studentincourse = new StudentInCourse();
+                if (studentlist.size() > 0) {
+                    ArrayList<Integer> studentschosen = Utils.printListElementsAndCollectChoices(sc, studentlist);
 
-                    studentincourse.setCourse(course);
-                    studentincourse.setStudent(studentlist.get(index - 1));
-                    studentincourse.setEnrolled(true);
+                    for (Integer index : studentschosen) {
+                        StudentInCourse studentincourse = new StudentInCourse();
 
-                    StudentInCourseDAO.updateStudentInCourse(studentincourse);
-                    School.appointAssignmentsToStudent(course, studentlist.get(index - 1));
+                        studentincourse.setCourse(course);
+                        studentincourse.setStudent(studentlist.get(index - 1));
+                        studentincourse.setEnrolled(true);
+
+                        StudentInCourseDAO.updateStudentInCourse(studentincourse);
+                        School.appointAssignmentsToStudent(course, studentlist.get(index - 1));
+                    }
+                } else {
+                    System.out.println("Currently no students to be enrolled.");
                 }
-            } else {
-                System.out.println("Currently no students to be enrolled.");
             }
         }
-
     }
 
     public static void dismissStudentsFromCourse(Scanner sc) {
@@ -392,23 +417,25 @@ public class School {
             ArrayList<StudentInCourse> list = new ArrayList();
 
             int indexofcourse = Utils.printListElementsAndPickOne(sc, courselist);
-            Course course = courselist.get(indexofcourse - 1);
 
-            ArrayList<Student> studentlist = StudentInCourseDAO.getStudentsAppointedToCourse(course.getCourseid());
+            if (indexofcourse > 0) {
+                Course course = courselist.get(indexofcourse - 1);
 
-            if (studentlist.size() > 0) {
-                ArrayList<Integer> studentschosen = Utils.printListElementsAndCollectChoices(sc, studentlist);
+                ArrayList<Student> studentlist = StudentInCourseDAO.getStudentsAppointedToCourse(course.getCourseid());
 
-                for (Integer index : studentschosen) {
+                if (studentlist.size() > 0) {
+                    ArrayList<Integer> studentschosen = Utils.printListElementsAndCollectChoices(sc, studentlist);
 
-                    StudentInCourseDAO.deleteStudentFromCourse(studentlist.get(index - 1).getStudentid(), course.getCourseid());
+                    for (Integer index : studentschosen) {
 
+                        StudentInCourseDAO.deleteStudentFromCourse(studentlist.get(index - 1).getStudentid(), course.getCourseid());
+
+                    }
+                } else {
+                    System.out.println("Currently no students appointed to " + course.toString());
                 }
-            } else {
-                System.out.println("Currently no students appointed to " + course.toString());
             }
         }
-
     }
 
     public static void appointTrainersToCourse(Scanner sc) {
@@ -421,27 +448,29 @@ public class School {
             ArrayList<TrainerInCourse> list = new ArrayList();
 
             int indexofcourse = Utils.printListElementsAndPickOne(sc, courselist);
-            Course course = courselist.get(indexofcourse - 1);
 
-            ArrayList<Trainer> trainerlist = TrainerInCourseDAO.getTrainersNotAppointedToCourse(course.getCourseid());
+            if (indexofcourse > 0) {
+                Course course = courselist.get(indexofcourse - 1);
 
-            if (trainerlist.size() > 0) {
-                ArrayList<Integer> trainerschosen = Utils.printListElementsAndCollectChoices(sc, trainerlist);
+                ArrayList<Trainer> trainerlist = TrainerInCourseDAO.getTrainersNotAppointedToCourse(course.getCourseid());
 
-                for (Integer index : trainerschosen) {
-                    TrainerInCourse trainerincourse = new TrainerInCourse();
+                if (trainerlist.size() > 0) {
+                    ArrayList<Integer> trainerschosen = Utils.printListElementsAndCollectChoices(sc, trainerlist);
 
-                    trainerincourse.setCourse(course);
-                    trainerincourse.setTrainer(trainerlist.get(index - 1));
+                    for (Integer index : trainerschosen) {
+                        TrainerInCourse trainerincourse = new TrainerInCourse();
 
-                    TrainerInCourseDAO.insertTrainerInCourse(trainerincourse);
+                        trainerincourse.setCourse(course);
+                        trainerincourse.setTrainer(trainerlist.get(index - 1));
+
+                        TrainerInCourseDAO.insertTrainerInCourse(trainerincourse);
+                    }
+                } else {
+                    System.out.println("Currently no trainers available to be appointed to course");
                 }
-            } else {
-                System.out.println("Currently no trainers available to be appointed to course");
+
             }
-
         }
-
     }
 
     public static void dismissTrainersFromCourse(Scanner sc) {
@@ -455,23 +484,25 @@ public class School {
             ArrayList<TrainerInCourse> list = new ArrayList();
 
             int indexofcourse = Utils.printListElementsAndPickOne(sc, courselist);
-            Course course = courselist.get(indexofcourse - 1);
 
-            ArrayList<Trainer> trainerlist = TrainerInCourseDAO.getTrainersAppointedToCourse(course.getCourseid());
+            if (indexofcourse > 0) {
+                Course course = courselist.get(indexofcourse - 1);
 
-            if (trainerlist.size() > 0) {
-                ArrayList<Integer> trainerschosen = Utils.printListElementsAndCollectChoices(sc, trainerlist);
+                ArrayList<Trainer> trainerlist = TrainerInCourseDAO.getTrainersAppointedToCourse(course.getCourseid());
 
-                for (Integer index : trainerschosen) {
+                if (trainerlist.size() > 0) {
+                    ArrayList<Integer> trainerschosen = Utils.printListElementsAndCollectChoices(sc, trainerlist);
 
-                    TrainerInCourseDAO.deleteTrainerFromCourse(trainerlist.get(index - 1).getTrainerid(), course.getCourseid());
+                    for (Integer index : trainerschosen) {
 
+                        TrainerInCourseDAO.deleteTrainerFromCourse(trainerlist.get(index - 1).getTrainerid(), course.getCourseid());
+
+                    }
+                } else {
+                    System.out.println("Currently no trainers appointed to " + course.toString());
                 }
-            } else {
-                System.out.println("Currently no trainers appointed to " + course.toString());
             }
         }
-
     }
 
     public static void appointAssignmentsToCourse(Scanner sc) {
@@ -484,26 +515,35 @@ public class School {
             ArrayList<AssignmentInCourse> list = new ArrayList();
 
             int indexofcourse = Utils.printListElementsAndPickOne(sc, courselist);
-            Course course = courselist.get(indexofcourse - 1);
 
-            ArrayList<Assignment> assignmentlist = AssignmentInCourseDAO.getAssignmentsNotAppointedToCourse(course.getCourseid());
+            if (indexofcourse > 0) {
+                Course course = courselist.get(indexofcourse - 1);
 
-            if (assignmentlist.size() > 0) {
-                ArrayList<Integer> assignmentschosen = Utils.printListElementsAndCollectChoices(sc, assignmentlist);
+                ArrayList<Assignment> assignmentlist = AssignmentInCourseDAO.getAssignmentsNotAppointedToCourse(course.getCourseid());
 
-                for (Integer index : assignmentschosen) {
-                    AssignmentInCourse assignmentincourse = new AssignmentInCourse();
+                if (assignmentlist.size() > 0) {
+                    ArrayList<Integer> assignmentschosen = Utils.printListElementsAndCollectChoices(sc, assignmentlist);
 
-                    assignmentincourse.setCourse(course);
-                    assignmentincourse.setAssignment(assignmentlist.get(index - 1));
-                    assignmentincourse.setSubmissiondatetime(School.defineSubmissiondatetime(sc, course, assignmentlist.get(index - 1)));
+                    for (Integer index : assignmentschosen) {
+                        AssignmentInCourse assignmentincourse = new AssignmentInCourse();
 
-                    AssignmentInCourseDAO.insertAssignmentInCourse(assignmentincourse);
+                        assignmentincourse.setCourse(course);
+                        assignmentincourse.setAssignment(assignmentlist.get(index - 1));
+                        assignmentincourse.setSubmissiondatetime(School.defineSubmissiondatetime(sc, course, assignmentlist.get(index - 1)));
+
+                        AssignmentInCourseDAO.insertAssignmentInCourse(assignmentincourse);
+
+                        ArrayList<Student> students = StudentInCourseDAO.getStudentsEnrolledToCourse(course.getCourseid());
+
+                        for (Student student : students) {
+                            School.appointAssignmentsToStudent(course, student);
+                        }
+
+                    }
+                } else {
+                    System.out.println("Currently no assignments available to be appointed at course");
                 }
-            } else {
-                System.out.println("Currently no assignments available to be appointed at course");
             }
-
         }
 
     }
@@ -533,23 +573,25 @@ public class School {
             ArrayList<AssignmentInCourse> list = new ArrayList();
 
             int indexofcourse = Utils.printListElementsAndPickOne(sc, courselist);
-            Course course = courselist.get(indexofcourse - 1);
 
-            ArrayList<Assignment> assignmentlist = AssignmentInCourseDAO.getAssignmentsAppointedToCourse(course.getCourseid());
+            if (indexofcourse > 0) {
+                Course course = courselist.get(indexofcourse - 1);
 
-            if (assignmentlist.size() > 0) {
-                ArrayList<Integer> assignmentschosen = Utils.printListElementsAndCollectChoices(sc, assignmentlist);
+                ArrayList<Assignment> assignmentlist = AssignmentInCourseDAO.getAssignmentsAppointedToCourse(course.getCourseid());
 
-                for (Integer index : assignmentschosen) {
+                if (assignmentlist.size() > 0) {
+                    ArrayList<Integer> assignmentschosen = Utils.printListElementsAndCollectChoices(sc, assignmentlist);
 
-                    AssignmentInCourseDAO.deleteAssignmentFromCourse(assignmentlist.get(index - 1).getAssignmentid(), course.getCourseid());
+                    for (Integer index : assignmentschosen) {
 
+                        AssignmentInCourseDAO.deleteAssignmentFromCourse(assignmentlist.get(index - 1).getAssignmentid(), course.getCourseid());
+
+                    }
+                } else {
+                    System.out.println("Currently no assignments appointed to " + course.toString());
                 }
-            } else {
-                System.out.println("Currently no assignments appointed to " + course.toString());
             }
         }
-
     }
 
     public static void editSubmissiondatetimeOfAssignment(Scanner sc) {
@@ -563,28 +605,30 @@ public class School {
             ArrayList<AssignmentInCourse> list = new ArrayList();
 
             int indexofcourse = Utils.printListElementsAndPickOne(sc, courselist);
-            Course course = courselist.get(indexofcourse - 1);
 
-            System.out.println("Select the assignments to edit their submission date and time");
-            ArrayList<Assignment> assignmentlist = AssignmentInCourseDAO.getAssignmentsAppointedToCourse(course.getCourseid());
+            if (indexofcourse > 0) {
+                Course course = courselist.get(indexofcourse - 1);
 
-            if (assignmentlist.size() > 0) {
-                ArrayList<Integer> assignmentschosen = Utils.printListElementsAndCollectChoices(sc, assignmentlist);
+                System.out.println("Select the assignments to edit their submission date and time");
+                ArrayList<Assignment> assignmentlist = AssignmentInCourseDAO.getAssignmentsAppointedToCourse(course.getCourseid());
 
-                for (Integer index : assignmentschosen) {
-                    AssignmentInCourse assignmentincourse = new AssignmentInCourse();
+                if (assignmentlist.size() > 0) {
+                    ArrayList<Integer> assignmentschosen = Utils.printListElementsAndCollectChoices(sc, assignmentlist);
 
-                    assignmentincourse.setCourse(course);
-                    assignmentincourse.setAssignment(assignmentlist.get(index - 1));
-                    assignmentincourse.setSubmissiondatetime(School.defineSubmissiondatetime(sc, course, assignmentlist.get(index - 1)));
+                    for (Integer index : assignmentschosen) {
+                        AssignmentInCourse assignmentincourse = new AssignmentInCourse();
 
-                    AssignmentInCourseDAO.updateAssignmentInCourse(assignmentincourse);
+                        assignmentincourse.setCourse(course);
+                        assignmentincourse.setAssignment(assignmentlist.get(index - 1));
+                        assignmentincourse.setSubmissiondatetime(School.defineSubmissiondatetime(sc, course, assignmentlist.get(index - 1)));
+
+                        AssignmentInCourseDAO.updateAssignmentInCourse(assignmentincourse);
+                    }
+                } else {
+                    System.out.println("Currently no assignments appointed to course.");
                 }
-            } else {
-                System.out.println("Currently no assignments appointed to course.");
             }
         }
-
     }
 
     public static void enrollStudentToCourses(Scanner sc, int studentid) {
@@ -616,7 +660,7 @@ public class School {
         }
 
     }
-    
+
     public static void submitAssignment(Scanner sc, int studentid) {
 
         System.out.println("Submitting assignments");
@@ -630,9 +674,9 @@ public class School {
             ArrayList<Integer> assignmentschosen = Utils.printListElementsAndCollectChoicesAssignments(sc, assignmentlist);
 
             for (Integer index : assignmentschosen) {
-                
+
                 IndividualAssignment individualassignment = assignmentlist.get(index - 1);
-                
+
                 individualassignment.setSubmitted(true);
 
                 IndividualAssignmentDAO.updateIndividualAssignment(individualassignment);
@@ -664,12 +708,12 @@ public class School {
         }
 
     }
-    
-    public static void markAssignments(Scanner sc) {
+
+    public static void markAssignments(Scanner sc, int trainerid) {
 
         System.out.println("Marking assignments");
 
-        ArrayList<IndividualAssignment> assignmentlist = IndividualAssignmentDAO.getAllSubmittedIndividualAssignments();
+        ArrayList<IndividualAssignment> assignmentlist = IndividualAssignmentDAO.getAllSubmittedIndividualAssignmentsByTrainer(trainerid);
 
         if (assignmentlist.size() > 0) {
 
@@ -678,14 +722,14 @@ public class School {
             ArrayList<Integer> assignmentschosen = Utils.printListElementsAndCollectChoicesAssignmentsToMark(sc, assignmentlist);
 
             for (Integer index : assignmentschosen) {
-                
+
                 IndividualAssignment individualassignment = assignmentlist.get(index - 1);
-                
+
                 System.out.println("Set oral mark: ");
                 int oralmark = InputUtils.inputInt(sc);
                 System.out.println("Set total mark: ");
                 int totalmark = InputUtils.inputInt(sc);
-                
+
                 individualassignment.setOralmark(oralmark);
                 individualassignment.setTotalmark(totalmark);
 
